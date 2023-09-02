@@ -7,20 +7,78 @@ namespace Lab1ServSide
         private static List<VideoGame> games = new List<VideoGame>();
         static void Main(string[] args)
         {
-            StreamReader sr = new(@"C:\Users\gqfri\source\repos\Lab1ServSide\Lab1ServSide\videogames.csv");
+            StreamReader sr = new(@"C:\Users\Gavin Frisby\Source\Repos\Lab1ServSide\Lab1ServSide\videogames.csv");
             string header = sr.ReadLine();
-            while (sr.ReadLine != null)
+            string NullCheck;
+            while ((NullCheck = sr.ReadLine()) != null) 
             {
                 string fileread = sr.ReadLine();
                 if (fileread != null)
                 {
                     games.Add(ProcessCSVLine(fileread));
+                }                
+            }
+            string userChoice;
+            do {
+                Console.Write("Please Select Action");
+                Console.WriteLine();
+                Console.WriteLine("Alphabetical Order (1)");
+                Console.WriteLine("Manual Nintendo Search (2)");
+                Console.WriteLine("Manual Racing Search (3)");
+                Console.WriteLine("Custom Publisher Search (4)");
+                Console.WriteLine("Custom Genre Search (5)");
+                Console.WriteLine("Stop (6)");
+                userChoice = Console.ReadLine();
+                if (userChoice.Equals("1"))
+                {
+                    // Ascending Order
+                    games.Sort((a, b) => a.CompareTo(b));
+                    foreach (VideoGame game in games)
+                    {
+                        Console.WriteLine(game.ToString());
+                    }
                 }
-            }
-            foreach(VideoGame game in games)
-            {
-                Console.WriteLine(game.ToString());
-            }
+
+                if (userChoice.Equals("2"))
+                    // check numbers?
+                {
+                    // Sorts by publisher
+                    string nintendo = "Nintendo";
+                    List<VideoGame> NintendoGames = games.Where(x => x.Publisher == nintendo).ToList();
+                    NintendoGames.Sort((a, b) => a.CompareTo(b));
+                    foreach (VideoGame game in NintendoGames)
+                    {
+                        Console.WriteLine(game.ToString());
+                    }
+
+                    double PublishPercent = (double)NintendoGames.Count() / (double)games.Count() * 100;
+                    Console.WriteLine("Out of " + games.Count() + " games, " + NintendoGames.Count() + " are developed by Nintendo, " + "which is " + Math.Round(PublishPercent, 2) + "%");
+                }
+
+                if (userChoice.Equals("3"))
+                {
+                    string racing = "Racing";
+                    List<VideoGame> RacingGames = games.Where(x => x.Genre == racing).ToList();
+                    RacingGames.Sort((a, b) => a.CompareTo(b));
+                    foreach (VideoGame game in RacingGames)
+                    {
+                        Console.WriteLine(game.ToString());
+                    }
+
+                    double PublishPercent = (double)RacingGames.Count() / (double)games.Count() * 100;
+                    Console.WriteLine("Out of " + games.Count() + " games, " + RacingGames.Count() + " are Racing Games, " + "which is " + Math.Round(PublishPercent, 2) + "%");
+                }
+
+                if(userChoice.Equals("4"))
+                {
+                    PublisherData();
+                }
+
+                if(userChoice.Equals("5"))
+                {
+                    GenreData();
+                }
+            } while (userChoice != "6");
         }
 
         static VideoGame ProcessCSVLine(string LineFromCSV)
@@ -53,6 +111,45 @@ namespace Lab1ServSide
             double GlobalSales = double.Parse(preparse6);
             VideoGame cleanGame = new VideoGame(Name, Platform, Year, Genre, publisher, NASales, EUSales, JPSales, OtherSales, GlobalSales);
             return cleanGame;
+        }
+        static void PublisherData()
+        {
+            Console.WriteLine("Please Enter the Publisher you would like to search: ");
+            string publisher = Console.ReadLine();
+            if (publisher == "")
+            {
+                publisher = "Blank";
+            }
+            publisher = publisher.ToLower();
+            publisher = char.ToUpper(publisher[0]) + publisher.Substring(1);
+            List<VideoGame> SearchedGames = games.Where(x => x.Publisher == publisher).ToList();
+            SearchedGames.Sort((a, b) => a.CompareTo(b));
+            foreach (VideoGame game in SearchedGames)
+            {
+                Console.WriteLine(game.ToString());
+            }
+            double PublishPercent = (double)SearchedGames.Count() / (double)games.Count() * 100;
+            Console.WriteLine("Out of " + games.Count() + " games, " + SearchedGames.Count() + " are developed by " + publisher + " ,which is " + Math.Round(PublishPercent, 2) + "%");
+        }
+
+        static void GenreData()
+        {
+            Console.WriteLine("Please Enter the Genre you would like to search: ");
+            string Genre = Console.ReadLine();
+            if (Genre == "")
+            {
+                Genre = "Blank";
+            }
+            Genre = Genre.ToLower();
+            Genre = char.ToUpper(Genre[0]) + Genre.Substring(1);
+            List<VideoGame> SearchedGames = games.Where(x => x.Genre == Genre).ToList();
+            SearchedGames.Sort((a, b) => a.CompareTo(b));
+            foreach (VideoGame game in SearchedGames)
+            {
+                Console.WriteLine(game.ToString());
+            }
+            double PublishPercent = (double)SearchedGames.Count() / (double)games.Count() * 100;
+            Console.WriteLine("Out of " + games.Count() + " games, " + SearchedGames.Count() + " are " + Genre + " games ,which is " + Math.Round(PublishPercent, 2) + "%");
         }
     }
 }

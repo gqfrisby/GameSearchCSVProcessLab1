@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab1ServSide
 {
-    internal class VideoGame
+    internal class VideoGame : IComparable<VideoGame>
     {
         public string Name { get; set; }
         public string Platform { get; set; }
@@ -33,11 +33,16 @@ namespace Lab1ServSide
             GlobalSales = globalSales;
         }
 
-        public string toString()
+        public override string ToString()
         {
             string info = "";
-            info = (Name + Platform + Year + Genre + Publisher + NASales + EUSales + JPSales + OtherSales + GlobalSales);
+            info = (this.Name + ", " + this.Platform + ", " + this.Year + ", " + this.Genre + ", " + this.Publisher + ", " + this.NASales + ", " + this.EUSales + ", " + this.JPSales + ", " + this.OtherSales + ", " + this.GlobalSales);
             return info;
+        }
+
+        public int CompareTo(VideoGame? other)
+        {
+            return string.Compare(this.Name, other.Name);
         }
     }
 }
