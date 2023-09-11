@@ -11,15 +11,16 @@ namespace Lab1ServSide
             string header = sr.ReadLine();
             string NullCheck;
             while ((NullCheck = sr.ReadLine()) != null) 
-            {
-                string fileread = sr.ReadLine();
-                if (fileread != null)
-                {
-                    games.Add(ProcessCSVLine(fileread));
-                }                
+            {   
+                    games.Add(ProcessCSVLine(NullCheck));                   
             }
             string userChoice;
             do {
+                //foreach (VideoGame game in games)
+                //{
+                //    System.Console.WriteLine(game.Name);
+                //}
+                Console.WriteLine("Number of Games: " + games.Count);
                 Console.Write("Please Select Action");
                 Console.WriteLine();
                 Console.WriteLine("Alphabetical Order (1)");
@@ -120,8 +121,6 @@ namespace Lab1ServSide
             {
                 publisher = "Blank";
             }
-            publisher = publisher.ToLower();
-            publisher = char.ToUpper(publisher[0]) + publisher.Substring(1);
             List<VideoGame> SearchedGames = games.Where(x => x.Publisher == publisher).ToList();
             SearchedGames.Sort((a, b) => a.CompareTo(b));
             foreach (VideoGame game in SearchedGames)
@@ -129,7 +128,7 @@ namespace Lab1ServSide
                 Console.WriteLine(game.ToString());
             }
             double PublishPercent = (double)SearchedGames.Count() / (double)games.Count() * 100;
-            Console.WriteLine("Out of " + games.Count() + " games, " + SearchedGames.Count() + " are developed by " + publisher + " ,which is " + Math.Round(PublishPercent, 2) + "%");
+            Console.WriteLine("Out of " + games.Count() + " games, " + SearchedGames.Count() + " are developed by " + publisher + ", which is " + Math.Round(PublishPercent, 2) + "%");
         }
 
         static void GenreData()
@@ -140,8 +139,6 @@ namespace Lab1ServSide
             {
                 Genre = "Blank";
             }
-            Genre = Genre.ToLower();
-            Genre = char.ToUpper(Genre[0]) + Genre.Substring(1);
             List<VideoGame> SearchedGames = games.Where(x => x.Genre == Genre).ToList();
             SearchedGames.Sort((a, b) => a.CompareTo(b));
             foreach (VideoGame game in SearchedGames)
@@ -149,7 +146,7 @@ namespace Lab1ServSide
                 Console.WriteLine(game.ToString());
             }
             double PublishPercent = (double)SearchedGames.Count() / (double)games.Count() * 100;
-            Console.WriteLine("Out of " + games.Count() + " games, " + SearchedGames.Count() + " are " + Genre + " games ,which is " + Math.Round(PublishPercent, 2) + "%");
+            Console.WriteLine("Out of " + games.Count() + " games, " + SearchedGames.Count() + " are " + Genre + " games, which is " + Math.Round(PublishPercent, 2) + "%");
         }
     }
 }
