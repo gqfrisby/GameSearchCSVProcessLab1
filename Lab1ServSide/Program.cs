@@ -115,7 +115,7 @@ namespace Lab1ServSide
         }
         static void PublisherData()
         {
-            Console.WriteLine("Please Enter the Publisher you would like to search: ");
+            Console.WriteLine("Please Enter the Publisher you would like to search (Case Sensitive): ");
             string publisher = Console.ReadLine();
             if (publisher == "")
             {
@@ -133,7 +133,7 @@ namespace Lab1ServSide
 
         static void GenreData()
         {
-            Console.WriteLine("Please Enter the Genre you would like to search: ");
+            Console.WriteLine("Please Enter the Genre you would like to search (Case Sensitive): ");
             string Genre = Console.ReadLine();
             if (Genre == "")
             {
